@@ -17,6 +17,8 @@ interface SettingsContextValue {
   setTheme: (t: Theme) => void
   language: Language
   setLanguage: (l: Language) => void
+  syncScroll: boolean
+  setSyncScroll: (v: boolean) => void
   t: Translations
 }
 
@@ -25,6 +27,7 @@ const SettingsContext = createContext<SettingsContextValue | null>(null)
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('light')
   const [language, setLanguageState] = useState<Language>('en')
+  const [syncScroll, setSyncScrollState] = useState<boolean>(true)
 
   // Apply / remove the `dark` class on <html> whenever theme changes
   useEffect(() => {
@@ -38,11 +41,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   const setTheme = useCallback((t: Theme) => setThemeState(t), [])
   const setLanguage = useCallback((l: Language) => setLanguageState(l), [])
+  const setSyncScroll = useCallback((v: boolean) => setSyncScrollState(v), [])
 
   const t = getTranslations(language)
 
   return (
-    <SettingsContext.Provider value={{ theme, setTheme, language, setLanguage, t }}>
+    <SettingsContext.Provider value={{ theme, setTheme, language, setLanguage, syncScroll, setSyncScroll, t }}>
       {children}
     </SettingsContext.Provider>
   )

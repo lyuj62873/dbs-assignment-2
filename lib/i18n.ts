@@ -40,6 +40,11 @@ export interface Translations {
   light: string
   dark: string
   language: string
+
+  // Editor settings
+  editorSection: string
+  syncScroll: string
+  syncScrollHint: string
 }
 
 const translations: Record<Language, Translations> = {
@@ -79,6 +84,10 @@ const translations: Record<Language, Translations> = {
     light: 'Light',
     dark: 'Dark',
     language: 'Language',
+
+    editorSection: 'Editor',
+    syncScroll: 'Sync Scroll',
+    syncScrollHint: 'Preview follows editor scroll position',
   },
   zh: {
     appTitle: 'Markdown 炼金术',
@@ -116,6 +125,10 @@ const translations: Record<Language, Translations> = {
     light: '浅色',
     dark: '深色',
     language: '语言',
+
+    editorSection: '编辑器',
+    syncScroll: '同步滚动',
+    syncScrollHint: '预览区域跟随编辑区域滚动',
   },
 }
 

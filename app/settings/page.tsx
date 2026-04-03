@@ -32,17 +32,41 @@ function OptionButton<T extends string>({
   )
 }
 
-function SettingRow({ label, children }: { label: string; children: React.ReactNode }) {
+function SettingRow({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between py-4 border-b border-gray-100 dark:border-gray-700 last:border-0">
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
-      <div className="flex gap-2">{children}</div>
+      <div>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
+        {hint && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{hint}</p>}
+      </div>
+      <div className="flex gap-2 ml-4">{children}</div>
     </div>
   )
 }
 
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <button
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className={`relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none ${
+        checked
+          ? 'bg-gray-900 dark:bg-gray-100'
+          : 'bg-gray-200 dark:bg-gray-600'
+      }`}
+    >
+      <span
+        className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-gray-900 shadow transition-transform ${
+          checked ? 'translate-x-6' : 'translate-x-1'
+        }`}
+      />
+    </button>
+  )
+}
+
 export default function SettingsPage() {
-  const { theme, setTheme, language, setLanguage, t } = useSettings()
+  const { theme, setTheme, language, setLanguage, syncScroll, setSyncScroll, t } = useSettings()
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-6 transition-colors">
@@ -87,6 +111,19 @@ export default function SettingsPage() {
             <OptionButton<Language> value="zh" current={language} onSelect={setLanguage}>
               简体中文
             </OptionButton>
+          </SettingRow>
+        </div>
+
+        {/* Editor section */}
+        <div className="mt-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm px-6">
+          <div className="pt-5 pb-1">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+              {t.editorSection}
+            </p>
+          </div>
+
+          <SettingRow label={t.syncScroll} hint={t.syncScrollHint}>
+            <Toggle checked={syncScroll} onChange={setSyncScroll} />
           </SettingRow>
         </div>
       </div>

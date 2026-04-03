@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -45,7 +45,7 @@ interface EditorProps {
 
 export default function Editor({ id }: EditorProps) {
   const { getDocument, updateDocument } = useDocuments()
-  const { t } = useSettings()
+  const { t, syncScroll } = useSettings()
   const mdComponents = useMdComponents()
   const doc = getDocument(id)
 
@@ -53,6 +53,22 @@ export default function Editor({ id }: EditorProps) {
   const [content, setContent] = useState(doc?.content ?? '')
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [showPreview, setShowPreview] = useState(true)
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null)
+
+  const handleEditorScroll = useCallback(() => {
+    if (!syncScroll || !showPreview) return
+    const ta = textareaRef.current
+    const preview = previewRef.current
+    if (!ta || !preview) return
+
+    const scrollable = ta.scrollHeight - ta.clientHeight
+    if (scrollable <= 0) return
+
+    const ratio = ta.scrollTop / scrollable
+    preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight)
+  }, [syncScroll, showPreview])
 
   useEffect(() => {
     if (!doc) return
@@ -129,8 +145,10 @@ export default function Editor({ id }: EditorProps) {
       <div className="flex flex-1 overflow-hidden">
         {/* Editor pane */}
         <textarea
+          ref={textareaRef}
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          onScroll={handleEditorScroll}
           className={`${
             showPreview ? 'w-1/2' : 'w-full'
           } h-full resize-none p-6 font-mono text-sm text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 outline-none focus:ring-0 overflow-y-auto leading-relaxed transition-colors`}
@@ -141,7 +159,7 @@ export default function Editor({ id }: EditorProps) {
 
         {/* Preview pane */}
         {showPreview && (
-          <div className="w-1/2 h-full overflow-y-auto bg-white dark:bg-gray-900 transition-colors">
+          <div ref={previewRef} className="w-1/2 h-full overflow-y-auto bg-white dark:bg-gray-900 transition-colors">
             <div className="p-8 max-w-none">
               <article className="prose prose-gray dark:prose-invert max-w-none">
                 {content ? (
