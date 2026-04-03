@@ -23,6 +23,8 @@ export interface Translations {
   saved: string
   hidePreview: string
   showPreview: string
+  downloadMd: string
+  exportPdf: string
   markdownPlaceholder: string
   previewPlaceholder: string
   documentNotFound: string
@@ -69,6 +71,8 @@ const translations: Record<Language, Translations> = {
     saved: 'Saved',
     hidePreview: 'Hide preview',
     showPreview: 'Show preview',
+    downloadMd: 'Download .md',
+    exportPdf: 'Export PDF',
     markdownPlaceholder: 'Write Markdown here...',
     previewPlaceholder: 'Preview will appear here as you type...',
     documentNotFound: 'Document not found.',
@@ -110,6 +114,8 @@ const translations: Record<Language, Translations> = {
     saved: '已保存',
     hidePreview: '隐藏预览',
     showPreview: '显示预览',
+    downloadMd: '下载 .md',
+    exportPdf: '导出 PDF',
     markdownPlaceholder: '在此输入 Markdown...',
     previewPlaceholder: '开始输入后，预览将显示在此处...',
     documentNotFound: '未找到文档。',

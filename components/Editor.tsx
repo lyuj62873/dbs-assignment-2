@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ArrowLeft, Check, Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, Check, Download, Eye, EyeOff, Printer } from 'lucide-react'
 import { useDocuments } from '@/context/DocumentContext'
 import { useSettings } from '@/context/SettingsContext'
 import { useMdComponents } from '@/hooks/useMdComponents'
@@ -39,6 +39,27 @@ function SaveBadge({ status, savingLabel, savedLabel }: {
   )
 }
 
+function ToolbarButton({
+  onClick,
+  title,
+  children,
+}: {
+  onClick: () => void
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      aria-label={title}
+      className="flex items-center justify-center p-1.5 rounded text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+    >
+      {children}
+    </button>
+  )
+}
+
 interface EditorProps {
   id: string
 }
@@ -70,6 +91,22 @@ export default function Editor({ id }: EditorProps) {
     preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight)
   }, [syncScroll, showPreview])
 
+  const handleDownload = useCallback(() => {
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${title.trim() || 'untitled'}.md`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, [content, title])
+
+  const handleExportPdf = useCallback(() => {
+    window.print()
+  }, [])
+
   useEffect(() => {
     if (!doc) return
     setSaveStatus('saving')
@@ -93,9 +130,9 @@ export default function Editor({ id }: EditorProps) {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-white dark:bg-gray-900 transition-colors">
-      {/* Toolbar */}
-      <header className="grid grid-cols-3 items-center h-14 px-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm flex-shrink-0 z-10 transition-colors">
+    <div className="flex flex-col h-screen overflow-hidden bg-white dark:bg-gray-900 transition-colors print:block print:h-auto print:overflow-visible">
+      {/* Toolbar — hidden when printing */}
+      <header className="grid grid-cols-3 items-center h-14 px-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm flex-shrink-0 z-10 transition-colors print:hidden">
         {/* Left: back link */}
         <div className="flex items-center">
           <Link
@@ -119,31 +156,37 @@ export default function Editor({ id }: EditorProps) {
           />
         </div>
 
-        {/* Right: save badge + preview toggle */}
-        <div className="flex items-center justify-end gap-3">
+        {/* Right: action buttons + save badge + preview toggle */}
+        <div className="flex items-center justify-end gap-1">
+          <ToolbarButton onClick={handleDownload} title={t.downloadMd}>
+            <Download className="w-4 h-4" />
+          </ToolbarButton>
+
+          <ToolbarButton onClick={handleExportPdf} title={t.exportPdf}>
+            <Printer className="w-4 h-4" />
+          </ToolbarButton>
+
+          {/* Subtle divider */}
+          <span className="w-px h-4 bg-gray-200 dark:bg-gray-600 mx-1" aria-hidden />
+
           <SaveBadge
             status={saveStatus}
             savingLabel={t.saving}
             savedLabel={t.saved}
           />
-          <button
+
+          <ToolbarButton
             onClick={() => setShowPreview((v) => !v)}
-            className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             title={showPreview ? t.hidePreview : t.showPreview}
-            aria-label={showPreview ? t.hidePreview : t.showPreview}
           >
-            {showPreview ? (
-              <EyeOff className="w-4 h-4" />
-            ) : (
-              <Eye className="w-4 h-4" />
-            )}
-          </button>
+            {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </ToolbarButton>
         </div>
       </header>
 
       {/* Split body */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Editor pane */}
+      <div className="flex flex-1 overflow-hidden print:block print:overflow-visible">
+        {/* Editor pane — hidden when printing */}
         <textarea
           ref={textareaRef}
           value={content}
@@ -151,30 +194,35 @@ export default function Editor({ id }: EditorProps) {
           onScroll={handleEditorScroll}
           className={`${
             showPreview ? 'w-1/2' : 'w-full'
-          } h-full resize-none p-6 font-mono text-sm text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 outline-none focus:ring-0 overflow-y-auto leading-relaxed transition-colors`}
+          } h-full resize-none p-6 font-mono text-sm text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 outline-none focus:ring-0 overflow-y-auto leading-relaxed transition-colors print:hidden`}
           placeholder={t.markdownPlaceholder}
           aria-label="Markdown editor"
           spellCheck
         />
 
-        {/* Preview pane */}
-        {showPreview && (
-          <div ref={previewRef} className="w-1/2 h-full overflow-y-auto bg-white dark:bg-gray-900 transition-colors">
-            <div className="p-8 max-w-none">
-              <article className="prose prose-gray dark:prose-invert max-w-none">
-                {content ? (
-                  <ReactMarkdown remarkPlugins={REMARK_PLUGINS} components={mdComponents}>
-                    {content}
-                  </ReactMarkdown>
-                ) : (
-                  <p className="text-gray-400 dark:text-gray-500 italic not-prose">
-                    {t.previewPlaceholder}
-                  </p>
-                )}
-              </article>
-            </div>
+        {/* Preview pane — always in DOM so print CSS can target it.
+            Visually hidden (display:none) when showPreview is false,
+            but print:!block forces it visible during printing. */}
+        <div
+          ref={previewRef}
+          className={`${
+            showPreview ? 'w-1/2' : 'hidden'
+          } h-full overflow-y-auto bg-white dark:bg-gray-900 transition-colors print:!block print:!w-full print:h-auto print:overflow-visible`}
+        >
+          <div className="p-8 max-w-none print:p-0">
+            <article className="prose prose-gray dark:prose-invert max-w-none">
+              {content ? (
+                <ReactMarkdown remarkPlugins={REMARK_PLUGINS} components={mdComponents}>
+                  {content}
+                </ReactMarkdown>
+              ) : (
+                <p className="text-gray-400 dark:text-gray-500 italic not-prose print:hidden">
+                  {t.previewPlaceholder}
+                </p>
+              )}
+            </article>
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
