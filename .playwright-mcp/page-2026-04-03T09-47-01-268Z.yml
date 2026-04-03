@@ -1,0 +1,26 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e65]
+  - generic [ref=e66]:
+    - banner [ref=e67]:
+      - link "Docs" [ref=e69] [cursor=pointer]:
+        - /url: /
+        - img [ref=e70]
+        - generic [ref=e72]: Docs
+      - textbox "Document title" [ref=e74]:
+        - /placeholder: Untitled
+        - text: Untitled
+      - generic [ref=e75]:
+        - button "Download .md" [ref=e76] [cursor=pointer]:
+          - img [ref=e77]
+        - button "Export PDF" [ref=e80] [cursor=pointer]:
+          - img [ref=e81]
+        - generic [ref=e86]:
+          - img [ref=e87]
+          - text: Saved
+        - button "Hide preview" [ref=e89] [cursor=pointer]:
+          - img [ref=e90]
+    - generic [ref=e95]:
+      - textbox "Markdown editor" [ref=e96]:
+        - /placeholder: Write Markdown here...
+      - article [ref=e99]:
+        - paragraph [ref=e100]: Preview will appear here as you type...

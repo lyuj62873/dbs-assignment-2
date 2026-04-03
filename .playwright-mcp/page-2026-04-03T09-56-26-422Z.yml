@@ -1,0 +1,45 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - link "← Edit" [ref=e5] [cursor=pointer]:
+      - /url: /edit/a1b2c3d4-0004-0004-0004-000000000004
+    - link "Docs" [ref=e6] [cursor=pointer]:
+      - /url: /
+  - article [ref=e7]:
+    - heading "Code Showcase" [level=1] [ref=e8]
+    - paragraph [ref=e9]: A tour of syntax highlighting across four languages.
+    - separator [ref=e10]
+    - heading "JavaScript" [level=2] [ref=e11]
+    - paragraph [ref=e12]: "Async/await with error handling:"
+    - code [ref=e15]:
+      - text: "async function fetchUser(id) { const res = await fetch(`/api/users/${id}`) if (!res.ok) throw new Error(`HTTP ${res.status}`) const user = await res.json() return user"
+      - text: "}"
+      - text: fetchUser(42) .then(user => console.log('Got user:', user.name)) .catch(err => console.error('Failed:', err.message))
+    - separator [ref=e16]
+    - heading "Python" [level=2] [ref=e17]
+    - paragraph [ref=e18]: "Fibonacci with type hints and a generator:"
+    - code [ref=e21]:
+      - text: from typing import Generator
+      - text: "def fibonacci(limit: int) -> Generator[int, None, None]: a, b = 0, 1 while a < limit: yield a a, b = b, a + b"
+      - text: "# Print all Fibonacci numbers below 1000"
+      - text: "for n in fibonacci(1000): print(n, end=\" \")"
+    - separator [ref=e22]
+    - heading "Java" [level=2] [ref=e23]
+    - paragraph [ref=e24]: "A generic stack implementation:"
+    - code [ref=e27]:
+      - text: import java.util.ArrayDeque;
+      - text: import java.util.Deque;
+      - text: import java.util.NoSuchElementException;
+      - text: "public class Stack<T> { private final Deque<T> deque = new ArrayDeque<>(); public void push(T item) { deque.push(item); } public T pop() { if (deque.isEmpty()) throw new NoSuchElementException(\"Stack is empty\"); return deque.pop(); } public T peek() { if (deque.isEmpty()) throw new NoSuchElementException(\"Stack is empty\"); return deque.peek(); } public boolean isEmpty() { return deque.isEmpty(); } public static void main(String[] args) { Stack<Integer> stack = new Stack<>(); stack.push(1); stack.push(2); stack.push(3); System.out.println(stack.pop()); // 3 System.out.println(stack.peek()); // 2 }"
+      - text: "}"
+    - separator [ref=e28]
+    - heading "MySQL" [level=2] [ref=e29]
+    - paragraph [ref=e30]: "Top customers by total spend with a subquery:"
+    - code [ref=e33]:
+      - text: SELECT u.id, u.name, u.email, SUM(o.total_amount) AS total_spent, COUNT(o.id) AS order_count, AVG(o.total_amount) AS avg_order_value
+      - text: FROM users u
+      - text: INNER JOIN orders o ON u.id = o.user_id
+      - text: WHERE o.status = 'completed' AND o.created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+      - text: GROUP BY u.id, u.name, u.email
+      - text: HAVING total_spent > 1000
+      - text: ORDER BY total_spent DESC
+      - text: LIMIT 20;

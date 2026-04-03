@@ -28,7 +28,7 @@ const DocumentContext = createContext<DocumentContextValue | null>(null)
 
 const SAMPLE_DOCS: Document[] = [
   {
-    id: uuidv4(),
+    id: 'a1b2c3d4-0001-0001-0001-000000000001',
     title: 'Welcome to Markdown Alchemist',
     content: `# Welcome to Markdown Alchemist
 
@@ -45,7 +45,7 @@ Start typing on the left — the preview updates instantly on the right.
     updatedAt: Date.now(),
   },
   {
-    id: uuidv4(),
+    id: 'a1b2c3d4-0002-0002-0002-000000000002',
     title: 'GFM Showcase',
     content: `## GitHub Flavored Markdown
 
@@ -75,7 +75,7 @@ const greet = (name: string) => \`Hello, \${name}!\`
     updatedAt: Date.now() - 2 * 60 * 1000,
   },
   {
-    id: uuidv4(),
+    id: 'a1b2c3d4-0003-0003-0003-000000000003',
     title: 'Quick Notes',
     content: `# Quick Notes
 
@@ -88,7 +88,7 @@ A scratch pad for ideas.
     updatedAt: Date.now() - 60 * 60 * 1000,
   },
   {
-    id: uuidv4(),
+    id: 'a1b2c3d4-0004-0004-0004-000000000004',
     title: 'Code Showcase',
     content: `# Code Showcase
 

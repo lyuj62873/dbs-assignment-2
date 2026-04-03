@@ -1,0 +1,35 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - link "Docs" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e8]: Docs
+      - textbox "Document title" [ref=e10]:
+        - /placeholder: Untitled
+        - text: Welcome to Markdown Alchemist
+      - generic [ref=e11]:
+        - button "Download .md" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+        - button "Export PDF" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+        - generic [ref=e21]: Saving...
+        - button "Hide preview" [ref=e22] [cursor=pointer]:
+          - img [ref=e23]
+    - generic [ref=e28]:
+      - textbox "Markdown editor" [ref=e29]:
+        - /placeholder: Write Markdown here...
+        - text: "# Welcome to Markdown Alchemist A **distraction-free** Markdown editor built for focused writing. ## Features - Real-time split-screen preview - Auto-saving to in-memory state - Clean, minimal UI Start typing on the left — the preview updates instantly on the right."
+      - article [ref=e32]:
+        - heading "Welcome to Markdown Alchemist" [level=1] [ref=e33]
+        - paragraph [ref=e34]:
+          - text: A
+          - strong [ref=e35]: distraction-free
+          - text: Markdown editor built for focused writing.
+        - heading "Features" [level=2] [ref=e36]
+        - list [ref=e37]:
+          - listitem [ref=e38]: Real-time split-screen preview
+          - listitem [ref=e39]: Auto-saving to in-memory state
+          - listitem [ref=e40]: Clean, minimal UI
+        - paragraph [ref=e41]: Start typing on the left — the preview updates instantly on the right.
+  - alert [ref=e42]

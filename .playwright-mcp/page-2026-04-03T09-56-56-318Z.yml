@@ -1,0 +1,54 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - heading "Markdown Alchemist" [level=1] [ref=e6]
+          - paragraph [ref=e7]: 4 documents
+        - button "New Document" [ref=e8] [cursor=pointer]:
+          - img [ref=e9]
+          - text: New Document
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - generic [ref=e12]:
+            - link "Welcome to Markdown Alchemist Just now" [ref=e13] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0001-0001-0001-000000000001
+              - img [ref=e14]
+              - generic [ref=e17]:
+                - paragraph [ref=e18]: Welcome to Markdown Alchemist
+                - paragraph [ref=e19]: Just now
+            - button "Delete \"Welcome to Markdown Alchemist\"" [ref=e20] [cursor=pointer]:
+              - img [ref=e21]
+        - listitem [ref=e24]:
+          - generic [ref=e25]:
+            - link "GFM Showcase 2m ago" [ref=e26] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0002-0002-0002-000000000002
+              - img [ref=e27]
+              - generic [ref=e30]:
+                - paragraph [ref=e31]: GFM Showcase
+                - paragraph [ref=e32]: 2m ago
+            - button "Delete \"GFM Showcase\"" [ref=e33] [cursor=pointer]:
+              - img [ref=e34]
+        - listitem [ref=e37]:
+          - generic [ref=e38]:
+            - link "Quick Notes 1h ago" [ref=e39] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0003-0003-0003-000000000003
+              - img [ref=e40]
+              - generic [ref=e43]:
+                - paragraph [ref=e44]: Quick Notes
+                - paragraph [ref=e45]: 1h ago
+            - button "Delete \"Quick Notes\"" [ref=e46] [cursor=pointer]:
+              - img [ref=e47]
+        - listitem [ref=e50]:
+          - generic [ref=e51]:
+            - link "Code Showcase 5m ago" [ref=e52] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0004-0004-0004-000000000004
+              - img [ref=e53]
+              - generic [ref=e56]:
+                - paragraph [ref=e57]: Code Showcase
+                - paragraph [ref=e58]: 5m ago
+            - button "Delete \"Code Showcase\"" [ref=e59] [cursor=pointer]:
+              - img [ref=e60]
+      - link "Settings" [ref=e64] [cursor=pointer]:
+        - /url: /settings
+  - alert [ref=e65]

@@ -67,7 +67,7 @@ export default function DashboardPage() {
                       <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
                         {doc.title || t.untitled}
                       </p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5" suppressHydrationWarning>
                         {relativeTime(doc.updatedAt, t)}
                       </p>
                     </div>

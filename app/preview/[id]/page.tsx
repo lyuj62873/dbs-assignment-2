@@ -51,11 +51,6 @@ export default function PreviewPage({ params }: Props) {
           </Link>
         </div>
 
-        {/* Title */}
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 leading-tight">
-          {doc.title || t.untitled}
-        </h1>
-
         {/* Content */}
         <article className="prose prose-gray dark:prose-invert max-w-none">
           <ReactMarkdown remarkPlugins={REMARK_PLUGINS} components={mdComponents}>

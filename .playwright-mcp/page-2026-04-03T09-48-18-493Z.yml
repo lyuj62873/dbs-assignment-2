@@ -1,0 +1,30 @@
+- generic [ref=e1]:
+  - alert [ref=e65]
+  - generic [ref=e193]:
+    - generic [ref=e194]:
+      - link "← 返回文档列表" [ref=e227] [cursor=pointer]:
+        - /url: /
+      - heading "设置" [level=1] [ref=e228]
+    - generic [ref=e197]:
+      - paragraph [ref=e199]: 外观
+      - generic [ref=e200]:
+        - generic [ref=e201]: 主题
+        - generic [ref=e202]:
+          - button "浅色" [ref=e229] [cursor=pointer]:
+            - img [ref=e204]
+            - text: 浅色
+          - button "深色" [pressed] [ref=e230] [cursor=pointer]:
+            - img [ref=e211]
+            - text: 深色
+      - generic [ref=e213]:
+        - generic [ref=e214]: 语言
+        - generic [ref=e215]:
+          - button "English" [ref=e216] [cursor=pointer]
+          - button "简体中文" [active] [pressed] [ref=e217] [cursor=pointer]
+    - generic [ref=e218]:
+      - paragraph [ref=e220]: 编辑器
+      - generic [ref=e221]:
+        - generic [ref=e222]:
+          - text: 同步滚动
+          - paragraph [ref=e223]: 预览区域跟随编辑区域滚动
+        - switch [checked] [ref=e225] [cursor=pointer]

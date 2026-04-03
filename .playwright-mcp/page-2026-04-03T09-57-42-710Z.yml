@@ -1,0 +1,30 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - link "← Back to Dashboard" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - heading "Settings" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - paragraph [ref=e9]: Appearance
+      - generic [ref=e10]:
+        - generic [ref=e11]: Theme
+        - generic [ref=e12]:
+          - button "Light" [pressed] [ref=e13] [cursor=pointer]:
+            - img [ref=e14]
+            - text: Light
+          - button "Dark" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - text: Dark
+      - generic [ref=e23]:
+        - generic [ref=e24]: Language
+        - generic [ref=e25]:
+          - button "English" [pressed] [ref=e26] [cursor=pointer]
+          - button "简体中文" [ref=e27] [cursor=pointer]
+    - generic [ref=e28]:
+      - paragraph [ref=e30]: Editor
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - text: Sync Scroll
+          - paragraph [ref=e33]: Preview follows editor scroll position
+        - switch [active] [ref=e35] [cursor=pointer]
+  - alert [ref=e37]

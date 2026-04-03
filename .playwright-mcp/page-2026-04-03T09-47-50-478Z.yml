@@ -1,0 +1,54 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e65]
+  - main [ref=e113]:
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - heading "Markdown Alchemist" [level=1] [ref=e117]
+          - paragraph [ref=e118]: 4 documents
+        - button "New Document" [ref=e119] [cursor=pointer]:
+          - img [ref=e120]
+          - text: New Document
+      - list [ref=e121]:
+        - listitem [ref=e135]:
+          - generic [ref=e136]:
+            - link "Welcome to Markdown Alchemist 1m ago" [ref=e189] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0001-0001-0001-000000000001
+              - img [ref=e138]
+              - generic [ref=e141]:
+                - paragraph [ref=e142]: Welcome to Markdown Alchemist
+                - paragraph [ref=e143]: 1m ago
+            - button "Delete \"Welcome to Markdown Alchemist\"" [ref=e144] [cursor=pointer]:
+              - img [ref=e145]
+        - listitem [ref=e148]:
+          - generic [ref=e149]:
+            - link "GFM Showcase 3m ago" [ref=e190] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0002-0002-0002-000000000002
+              - img [ref=e151]
+              - generic [ref=e154]:
+                - paragraph [ref=e155]: GFM Showcase
+                - paragraph [ref=e156]: 3m ago
+            - button "Delete \"GFM Showcase\"" [ref=e157] [cursor=pointer]:
+              - img [ref=e158]
+        - listitem [ref=e161]:
+          - generic [ref=e162]:
+            - link "Quick Notes 1h ago" [ref=e163] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0003-0003-0003-000000000003
+              - img [ref=e164]
+              - generic [ref=e167]:
+                - paragraph [ref=e168]: Quick Notes
+                - paragraph [ref=e169]: 1h ago
+            - button "Delete \"Quick Notes\"" [ref=e170] [cursor=pointer]:
+              - img [ref=e171]
+        - listitem [ref=e174]:
+          - generic [ref=e175]:
+            - link "Code Showcase 6m ago" [ref=e191] [cursor=pointer]:
+              - /url: /edit/a1b2c3d4-0004-0004-0004-000000000004
+              - img [ref=e177]
+              - generic [ref=e180]:
+                - paragraph [ref=e181]: Code Showcase
+                - paragraph [ref=e182]: 6m ago
+            - button "Delete \"Code Showcase\"" [ref=e183] [cursor=pointer]:
+              - img [ref=e184]
+      - link "Settings" [ref=e188] [cursor=pointer]:
+        - /url: /settings

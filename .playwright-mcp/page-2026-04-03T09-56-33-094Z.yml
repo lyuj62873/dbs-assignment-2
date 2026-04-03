@@ -1,0 +1,6 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e3]:
+    - text: Document not found.
+    - link "Go back" [ref=e4] [cursor=pointer]:
+      - /url: /
+  - alert [ref=e5]
