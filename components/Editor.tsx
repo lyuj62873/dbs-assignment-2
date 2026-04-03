@@ -6,27 +6,32 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ArrowLeft, Check, Eye, EyeOff } from 'lucide-react'
 import { useDocuments } from '@/context/DocumentContext'
+import { useSettings } from '@/context/SettingsContext'
 
 const REMARK_PLUGINS = [remarkGfm]
 
 type SaveStatus = 'idle' | 'saving' | 'saved'
 
-function SaveBadge({ status }: { status: SaveStatus }) {
+function SaveBadge({ status, savingLabel, savedLabel }: {
+  status: SaveStatus
+  savingLabel: string
+  savedLabel: string
+}) {
   if (status === 'idle') return null
   return (
     <span
       className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium transition-all ${
         status === 'saving'
-          ? 'bg-yellow-50 text-yellow-700 border border-yellow-200'
-          : 'bg-green-50 text-green-700 border border-green-200'
+          ? 'bg-yellow-50 text-yellow-700 border border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800'
+          : 'bg-green-50 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800'
       }`}
     >
       {status === 'saving' ? (
-        'Saving...'
+        savingLabel
       ) : (
         <>
           <Check className="w-3 h-3" />
-          Saved
+          {savedLabel}
         </>
       )}
     </span>
@@ -39,6 +44,7 @@ interface EditorProps {
 
 export default function Editor({ id }: EditorProps) {
   const { getDocument, updateDocument } = useDocuments()
+  const { t } = useSettings()
   const doc = getDocument(id)
 
   const [title, setTitle] = useState(doc?.title ?? '')
@@ -57,11 +63,11 @@ export default function Editor({ id }: EditorProps) {
 
   if (!doc) {
     return (
-      <div className="flex items-center justify-center h-screen text-gray-500">
+      <div className="flex items-center justify-center h-screen bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
         <p>
-          Document not found.{' '}
-          <Link href="/" className="text-blue-600 hover:underline">
-            Go back
+          {t.documentNotFound}{' '}
+          <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">
+            {t.goBack}
           </Link>
         </p>
       </div>
@@ -69,17 +75,17 @@ export default function Editor({ id }: EditorProps) {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-white">
+    <div className="flex flex-col h-screen overflow-hidden bg-white dark:bg-gray-900 transition-colors">
       {/* Toolbar */}
-      <header className="grid grid-cols-3 items-center h-14 px-4 border-b border-gray-200 bg-white shadow-sm flex-shrink-0 z-10">
+      <header className="grid grid-cols-3 items-center h-14 px-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm flex-shrink-0 z-10 transition-colors">
         {/* Left: back link */}
         <div className="flex items-center">
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Docs</span>
+            <span>{t.docs}</span>
           </Link>
         </div>
 
@@ -89,20 +95,24 @@ export default function Editor({ id }: EditorProps) {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full text-center font-semibold text-gray-900 bg-transparent border-none outline-none focus:ring-0 placeholder:text-gray-400 truncate"
-            placeholder="Untitled"
+            className="w-full text-center font-semibold text-gray-900 dark:text-gray-100 bg-transparent border-none outline-none focus:ring-0 placeholder:text-gray-400 dark:placeholder:text-gray-500 truncate"
+            placeholder={t.untitledPlaceholder}
             aria-label="Document title"
           />
         </div>
 
         {/* Right: save badge + preview toggle */}
         <div className="flex items-center justify-end gap-3">
-          <SaveBadge status={saveStatus} />
+          <SaveBadge
+            status={saveStatus}
+            savingLabel={t.saving}
+            savedLabel={t.saved}
+          />
           <button
             onClick={() => setShowPreview((v) => !v)}
-            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100 transition-colors"
-            title={showPreview ? 'Hide preview' : 'Show preview'}
-            aria-label={showPreview ? 'Hide preview' : 'Show preview'}
+            className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            title={showPreview ? t.hidePreview : t.showPreview}
+            aria-label={showPreview ? t.hidePreview : t.showPreview}
           >
             {showPreview ? (
               <EyeOff className="w-4 h-4" />
@@ -121,24 +131,24 @@ export default function Editor({ id }: EditorProps) {
           onChange={(e) => setContent(e.target.value)}
           className={`${
             showPreview ? 'w-1/2' : 'w-full'
-          } h-full resize-none p-6 font-mono text-sm text-gray-800 bg-white border-r border-gray-200 outline-none focus:ring-0 overflow-y-auto leading-relaxed`}
-          placeholder="Write Markdown here..."
+          } h-full resize-none p-6 font-mono text-sm text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 outline-none focus:ring-0 overflow-y-auto leading-relaxed transition-colors`}
+          placeholder={t.markdownPlaceholder}
           aria-label="Markdown editor"
           spellCheck
         />
 
         {/* Preview pane */}
         {showPreview && (
-          <div className="w-1/2 h-full overflow-y-auto bg-white">
+          <div className="w-1/2 h-full overflow-y-auto bg-white dark:bg-gray-900 transition-colors">
             <div className="p-8 max-w-none">
-              <article className="prose prose-gray max-w-none">
+              <article className="prose prose-gray dark:prose-invert max-w-none">
                 {content ? (
                   <ReactMarkdown remarkPlugins={REMARK_PLUGINS}>
                     {content}
                   </ReactMarkdown>
                 ) : (
-                  <p className="text-gray-400 italic not-prose">
-                    Preview will appear here as you type...
+                  <p className="text-gray-400 dark:text-gray-500 italic not-prose">
+                    {t.previewPlaceholder}
                   </p>
                 )}
               </article>
