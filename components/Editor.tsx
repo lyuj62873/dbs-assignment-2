@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -67,13 +68,15 @@ interface EditorProps {
 export default function Editor({ id }: EditorProps) {
   const { getDocument, updateDocument } = useDocuments()
   const { t, syncScroll } = useSettings()
-  const mdComponents = useMdComponents()
   const doc = getDocument(id)
 
   const [title, setTitle] = useState(doc?.title ?? '')
   const [content, setContent] = useState(doc?.content ?? '')
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [showPreview, setShowPreview] = useState(true)
+  const [isPrinting, setIsPrinting] = useState(false)
+
+  const mdComponents = useMdComponents(isPrinting)
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const previewRef = useRef<HTMLDivElement>(null)
@@ -104,7 +107,23 @@ export default function Editor({ id }: EditorProps) {
   }, [content, title])
 
   const handleExportPdf = useCallback(() => {
+    const root = document.documentElement
+    const wasDark = root.classList.contains('dark')
+
+    // Force React to synchronously commit isPrinting=true so the
+    // syntax highlighter's inline token styles switch to oneDark
+    // (light-mode code) before the browser captures the print layout.
+    flushSync(() => setIsPrinting(true))
+
+    // Strip the dark class so CSS-driven dark styles (prose-invert,
+    // dark:bg-*, dark:text-*) revert to their light-mode values.
+    if (wasDark) root.classList.remove('dark')
+
     window.print()
+
+    // Restore everything after the print dialog closes.
+    setIsPrinting(false)
+    if (wasDark) root.classList.add('dark')
   }, [])
 
   useEffect(() => {
