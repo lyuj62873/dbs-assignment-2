@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useDocuments } from '@/context/DocumentContext'
 import { useSettings } from '@/context/SettingsContext'
+import { useMdComponents } from '@/hooks/useMdComponents'
 
 const REMARK_PLUGINS = [remarkGfm]
 
@@ -15,6 +16,7 @@ interface Props {
 export default function PreviewPage({ params }: Props) {
   const { getDocument } = useDocuments()
   const { t } = useSettings()
+  const mdComponents = useMdComponents()
   const doc = getDocument(params.id)
 
   if (!doc) {
@@ -56,7 +58,7 @@ export default function PreviewPage({ params }: Props) {
 
         {/* Content */}
         <article className="prose prose-gray dark:prose-invert max-w-none">
-          <ReactMarkdown remarkPlugins={REMARK_PLUGINS}>
+          <ReactMarkdown remarkPlugins={REMARK_PLUGINS} components={mdComponents}>
             {doc.content}
           </ReactMarkdown>
         </article>

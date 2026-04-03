@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm'
 import { ArrowLeft, Check, Eye, EyeOff } from 'lucide-react'
 import { useDocuments } from '@/context/DocumentContext'
 import { useSettings } from '@/context/SettingsContext'
+import { useMdComponents } from '@/hooks/useMdComponents'
 
 const REMARK_PLUGINS = [remarkGfm]
 
@@ -45,6 +46,7 @@ interface EditorProps {
 export default function Editor({ id }: EditorProps) {
   const { getDocument, updateDocument } = useDocuments()
   const { t } = useSettings()
+  const mdComponents = useMdComponents()
   const doc = getDocument(id)
 
   const [title, setTitle] = useState(doc?.title ?? '')
@@ -143,7 +145,7 @@ export default function Editor({ id }: EditorProps) {
             <div className="p-8 max-w-none">
               <article className="prose prose-gray dark:prose-invert max-w-none">
                 {content ? (
-                  <ReactMarkdown remarkPlugins={REMARK_PLUGINS}>
+                  <ReactMarkdown remarkPlugins={REMARK_PLUGINS} components={mdComponents}>
                     {content}
                   </ReactMarkdown>
                 ) : (
